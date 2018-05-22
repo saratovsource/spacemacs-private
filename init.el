@@ -38,6 +38,8 @@ values."
      prodigy
      search-engine
      graphviz
+     tmux
+     protobuf
      (syntax-checking :variables syntax-checking-enable-by-default nil
                       syntax-checking-enable-tooltips nil)
      (spell-checking :variables spell-checking-enable-by-default nil)
@@ -60,7 +62,7 @@ values."
      restclient
      (gtags :disabled-for clojure emacs-lisp javascript latex python shell-scripts)
      (shell :variables shell-default-shell 'eshell)
-     ;; docker
+     docker
      latex
      deft
      markdown
@@ -68,6 +70,10 @@ values."
      gpu
      yaml
      react
+     ruby
+     ruby-on-rails
+     go
+     rust
      (python :variables
              python-test-runner '(nose pytest))
      ;; (ruby :variables ruby-version-manager 'chruby)
@@ -76,13 +82,15 @@ values."
      html
      javascript
      (typescript :variables
-                typescript-fmt-on-save nil
-                typescript-fmt-tool 'typescript-formatter)
+                 typescript-fmt-on-save nil
+                 typescript-fmt-tool 'typescript-formatter)
      emacs-lisp
      (clojure :variables clojure-enable-fancify-symbols t)
      racket
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode)
+     evil-commentary
+     dash
      zilongshanren
      (chinese :packages youdao-dictionary fcitx
               :variables chinese-enable-fcitx nil
@@ -174,15 +182,16 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-light
+   dotspacemacs-themes '(zenburn
+                         solarized-light
                          solarized-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Fira Code"
                                :size 14
-                               :weight normal
+                               :weight light
                                :width normal
                                :powerline-scale 1.1)
    ;; The leader key
@@ -215,7 +224,7 @@ values."
    dotspacemacs-retain-visual-state-on-shift t
    ;; If non-nil, J and K move lines up and down when in visual mode.
    ;; (default nil)
-   dotspacemacs-visual-line-move-text t
+   dotspacemacs-visual-line-move-text nil
    ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
    ;; (default nil)
    dotspacemacs-ex-substitute-global nil
@@ -238,6 +247,7 @@ values."
    dotspacemacs-auto-save-file-location 'cache
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
+   dotspacemacs-mode-line-theme 'spacemacs
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
    dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
@@ -358,21 +368,6 @@ values."
   )
 
 (defun dotspacemacs/user-config ()
-  ;;解决org表格里面中英文对齐的问题
-  (when (configuration-layer/layer-usedp 'chinese)
-    (when (and (spacemacs/system-is-mac) window-system)
-      (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 14 16)))
-
-  ;; Setting Chinese Font
-  (when (and (spacemacs/system-is-mswindows) window-system)
-    (setq ispell-program-name "aspell")
-    (setq w32-pass-alt-to-system nil)
-    (setq w32-apps-modifier 'super)
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font)
-                        charset
-                        (font-spec :family "Microsoft Yahei" :size 14))))
-
   (fset 'evil-visual-update-x-selection 'ignore)
 
   ;; force horizontal split window
